@@ -81,15 +81,13 @@ def resource_path(relative_path):
 
 if __name__ == '__main__':
     if config.load_config():
-        # icons = os.path.join(os.path.dirname(__file__), 'ico/wallpaper.ico')
-        icon = resource_path('ico\wallpaper.ico')
-        check_icon = resource_path('ico\check.ico')
+        icon = resource_path('ico\\wallpaper.ico')
         hover_text = "Flickr Wallpaper Changer"
 
         menu_options = (
             ("Force change wallpaper", None, set_wallpaper),
             ('Delay', None, (
-                ('1 min', check_icon, change_1min),
+                ('1 min', None, change_1min),
                 ('5 min', None, change_5min),
                 ('15 min', None, change_15min),
                 ('30 min', None, change_30min),

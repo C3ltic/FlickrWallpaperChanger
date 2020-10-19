@@ -16,7 +16,6 @@ a = Analysis(['main.py'],
              cipher=block_cipher,
              noarchive=False)
 a.datas += [('ico\\wallpaper.ico','C:\\Users\\yoann\\PycharmProjects\\FlickrWallpaperChanger\\ico\\wallpaper.ico','DATA')]
-a.datas += [('ico\\check.ico','C:\\Users\\yoann\\PycharmProjects\\FlickrWallpaperChanger\\ico\\check.ico','DATA')]
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,

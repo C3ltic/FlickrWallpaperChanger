@@ -43,11 +43,10 @@ class Config(object):
     sizes = ["url_k", "url_o", "url_h", "url_l"]
 
     def __init__(self):
-
         if getattr(sys, 'frozen', False):
             self.base_dir = os.path.dirname(sys.executable)
         elif __file__:
-            self.base_dir = os.path.dirname(__file__)
+            self.base_dir = os.path.join(os.path.dirname(__file__), '..', '..', '..', '..')
         self.config_file = os.path.join(self.base_dir, 'config.yml')
 
     def load_config(self):

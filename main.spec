@@ -3,10 +3,13 @@
 block_cipher = None
 
 
-a = Analysis(['main.py'],
+a = Analysis(['src\\python\\main.py'],
              pathex=['C:\\Users\\yoann\\PycharmProjects\\FlickrWallpaperChanger'],
              binaries=[],
-             datas=[],
+             datas=[('src\\resources\\base\\close.png', '.'),
+                    ('src\\resources\\base\\icon.png', '.'),
+                    ('src\\resources\\base\\minimize.png', '.'),
+                    ('src\\resources\\base\\style.css', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -15,7 +18,6 @@ a = Analysis(['main.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
-a.datas += [('ico\\wallpaper.ico','C:\\Users\\yoann\\PycharmProjects\\FlickrWallpaperChanger\\ico\\wallpaper.ico','DATA')]
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
@@ -31,4 +33,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False , icon='C:\\Users\\yoann\\PycharmProjects\\FlickrWallpaperChanger\\ico\\wallpaper.ico')
+          console=False , icon='src\\icons\\Icon.ico')

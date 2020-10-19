@@ -10,6 +10,7 @@ _Tested on Windows 10_
 * [PyYAML](https://github.com/yaml/pyyaml)
 * [pywin32](https://github.com/mhammond/pywin32)
 * [pywin32-ctypes](https://github.com/enthought/pywin32-ctypes)
+* [PySide2](https://wiki.qt.io/Qt_for_Python)
 
 ## Config file
 The config file is named config.yml.

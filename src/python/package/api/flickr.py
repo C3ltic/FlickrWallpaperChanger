@@ -6,11 +6,7 @@ from flickrapi import FlickrAPI
 
 from package.api.config import config
 
-# api_key = u'28a24dd1e2782a45a92489a5ff3280cc'
-# api_secret = u'283b4b6c9a5ba504'
 MIN_SIZE_RATIO = 1.333333
-# SIZES = ["url_o", "url_k", "url_h", "url_l"]  # in order of preference
-
 
 def get_photos():
     extras = ','.join(config.sizes)

@@ -80,10 +80,13 @@ def get_urls(max_url=10000, min_size_ratio=None):
     return urls
 
 
-def get_random_url():
+def get_random_url(last_url):
     urls = get_urls(min_size_ratio=config.image_ratio)
     total = len(urls)
-    num = randrange(total)
+    while True:
+        num = randrange(total)
+        if last_url != urls[num]:   # be sure the next photo is different.
+            break
     return urls[num]
 
 

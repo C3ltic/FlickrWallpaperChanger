@@ -18,8 +18,9 @@ a = Analysis(['src\\python\\main.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
-pyz = PYZ(a.pure, a.zipped_data,
-             cipher=block_cipher)
+pyz = PYZ(a.pure,
+          a.zipped_data,
+          cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
           a.binaries,
@@ -33,4 +34,6 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False , icon='src\\icons\\Icon.ico')
+          console=False,
+          version='version_info.txt',
+          icon='src\\icons\\Icon.ico')

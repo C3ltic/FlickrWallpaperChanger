@@ -10,6 +10,8 @@ from package.api.change_wallpaper import get_last_error
 from package.api.RepeatedTimer import RepeatedTimer
 from package.api.config import config
 
+_APPLICATION_NAME = 'FlickrWallpaperChanger'
+
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -25,23 +27,13 @@ class MainWindow(QtWidgets.QWidget):
         self.width = 300
         self.height = 100
 
-        # self.tray = None
-        # self.lbl_title = None
-        # self.btn_quit = None
-        # self.btn_minimize = None
-        # self.lbl_delay = None
-        # self.cmb_delay = None
-        # self.main_layout = None
-        # self.layout_buttons = None
-        # self.layout_delay = None
-        # self.btn_force = None
-
         is_config = config.load_config()
         self.setup_ui()
 
         self.user_dir = os.path.join(os.environ["USERPROFILE"])
         self.flickr_pic_dir = os.path.join(self.user_dir, '.flickr')
         self.last_image = None
+        self.last_url = None
         self.scheduler = None
         self.scheduler_event = None
 
@@ -87,7 +79,7 @@ class MainWindow(QtWidgets.QWidget):
             self.setStyleSheet(f.read())
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
 
-        self.lbl_title.setText('Flickr Wallpaper Changer  ')
+        self.lbl_title.setText(f'{_APPLICATION_NAME}  ')
         self.btn_minimize.setIcon(QtGui.QIcon(resource_path("minimize.png")))
         self.btn_quit.setIcon(QtGui.QIcon(resource_path("close.png")))
 
@@ -155,7 +147,6 @@ class MainWindow(QtWidgets.QWidget):
     def on_quit_application(self):
         if self.scheduler:
             self.scheduler.stop()
-        self.delete_last_image()
         config.save_config()
         self.close()
 
@@ -174,12 +165,15 @@ class MainWindow(QtWidgets.QWidget):
         flickr.create_folder(self.flickr_pic_dir)
         self.delete_last_image()
 
-        url = flickr.get_random_url()
+        url = flickr.get_random_url(self.last_url)
+        self.last_url = url
         path = flickr.download_image(url, self.flickr_pic_dir)
         self.last_image = path
 
         if not change_wallpaper(path):
             return get_last_error()
+        else:
+            self.delete_last_image()
 
     def start_scheduler(self):
         self.scheduler = RepeatedTimer(1, self.set_wallpaper)
@@ -187,10 +181,30 @@ class MainWindow(QtWidgets.QWidget):
         self.scheduler.set_interval(config.delay)
 
 
+def get_lock_file():
+    flickr_dir = os.path.join(os.path.join(os.environ["USERPROFILE"]), '.flickr')
+    return os.path.join(flickr_dir, f'instance_{_APPLICATION_NAME}.lock')
+
+
 if __name__ == '__main__':
-    # Create the Qt Application
-    app = QtWidgets.QApplication(sys.argv)
-    # Create the Window
-    win = MainWindow()
-    # Run the main Qt loop
-    sys.exit(app.exec_())
+    result = 0
+    lock_file = get_lock_file()
+    try:
+        if os.path.isfile(lock_file):
+            os.unlink(lock_file)
+    except WindowsError as e:
+        # Should give you something like 'WindowsError: [Error 32] The process cannot access the file because it is
+        # being used by another process..' : there's instance already running
+        print(f'{_APPLICATION_NAME} instance already running.')
+        sys.exit(0)
+
+    with open(lock_file, 'wb') as lock_file_obj:
+        # Create the Qt Application
+        app = QtWidgets.QApplication(sys.argv)
+        # Create the Window
+        win = MainWindow()
+        # Run the main Qt loop
+        result = app.exec_()
+
+    os.unlink(lock_file)
+    sys.exit(result)

@@ -8,19 +8,23 @@ def get_sizes(maximum_size):
         maximum_size = 'HD'
 
     if maximum_size == 'VGA':  # 640x480
-        return ["url_z"]
+        return ["url_z", "url_c", "url_b"]
     elif maximum_size == 'SVGA':  # 800x600
-        return ["url_c", "url_z"]
+        return ["url_c", "url_b", "url_h"]
     elif maximum_size == 'XGA':  # 1024x768
-        return ["url_b", "url_c", "url_z"]
+        return ["url_b", "url_h", "url_z"]
     elif maximum_size == 'UXGA':  # 1600x1200
-        return ["url_h", "url_b", "url_c"]
+        return ["url_h", "url_b", "url_k", "url_o"]
     elif maximum_size == 'HD':  # 1920x1080
-        return ["url_k", "url_o", "url_h", "url_l"]
+        return ["url_k", "url_3k", "url_4k", "url_o"]
+    elif maximum_size == '3K':  # 3072
+        return ["url_3k", "url_4k", "url_f", "url_o"]
     elif maximum_size == '4K':  # 4096
-        return ["url_f", "url_4k", "url_o", "url_3k", "url_k", "url_h"]
+        return ["url_4k", "url_f", "url_5k", "url_6k", "url_o"]
+    elif maximum_size == '5K':  # 5120
+        return ["url_5k", "url_6k", "url_o"]
     elif maximum_size == '6K':  # 6144
-        return ["url_6k", "url_5k", "url_o", "url_f", "url_4k", "url_3k", "url_k", "url_h"]
+        return ["url_6k", "url_o"]
 
 
 class Config(object):
@@ -40,7 +44,7 @@ class Config(object):
     horizontal = True
     maximum_size = 'HD'
     delay = 60
-    sizes = ["url_k", "url_o", "url_h", "url_l"]
+    sizes = ["url_k", "url_3k", "url_4k", "url_o"]
 
     def __init__(self):
         if getattr(sys, 'frozen', False):
